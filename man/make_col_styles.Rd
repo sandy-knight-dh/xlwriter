@@ -4,7 +4,13 @@
 \alias{make_col_styles}
 \title{Parse columns for styling}
 \usage{
-make_col_styles(df, row_pos, col_pos, pct_cols = NULL)
+make_col_styles(
+  df,
+  row_pos,
+  col_pos,
+  pct_cols = NULL,
+  use_colname_hints = FALSE
+)
 }
 \arguments{
 \item{df}{A data frame.}
@@ -14,6 +20,8 @@ make_col_styles(df, row_pos, col_pos, pct_cols = NULL)
 \item{col_pos}{Starting col (numeric).}
 
 \item{pct_cols}{Character vector of columns that should take percent format}
+
+\item{use_colname_hints}{Use column names added by \code{add_colname_hints()} to determine formatting style. \code{FALSE} by default.}
 }
 \description{
 Parse columns for styling

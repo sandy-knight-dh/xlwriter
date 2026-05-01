@@ -4,7 +4,15 @@
 \alias{add_styled_data}
 \title{Add a data frame with cell styling}
 \usage{
-add_styled_data(wb, df, row_pos, col_pos, pct_cols = NULL, year_cols = NULL)
+add_styled_data(
+  wb,
+  df,
+  row_pos,
+  col_pos,
+  pct_cols = NULL,
+  year_cols = NULL,
+  use_colname_hints = FALSE
+)
 }
 \arguments{
 \item{wb}{A workbook object.}
@@ -18,6 +26,8 @@ add_styled_data(wb, df, row_pos, col_pos, pct_cols = NULL, year_cols = NULL)
 \item{pct_cols}{Character vector of column names to be percent formatted.}
 
 \item{year_cols}{Character vector of column containing year values.}
+
+\item{use_colname_hints}{Use column names to determine formatting.}
 }
 \description{
 Add a data frame with cell styling

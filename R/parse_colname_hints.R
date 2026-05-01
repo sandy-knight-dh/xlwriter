@@ -17,10 +17,10 @@ add_colname_hints <- function(df, .cols, formats = NULL) {
   .cols <- unique(.cols)
   stopifnot(length(.cols) == length(formats))
   if (is.numeric(.cols)) {
-  colnames(df)[.cols] <- paste(colnames(df)[.cols], formats, sep = ".")
+    colnames(df)[.cols] <- paste(colnames(df)[.cols], formats, sep = ".")
   } else {
-  .cols <- purrr::map_int(.x = .cols, .f = \(x) which(x == colnames(df)))
-  colnames(df)[.cols] <- paste(colnames(df)[.cols], formats, sep = ".")
+    .cols <- purrr::map_int(.x = .cols, .f = \(x) which(x == colnames(df)))
+    colnames(df)[.cols] <- paste(colnames(df)[.cols], formats, sep = ".")
   }
   df
 }
@@ -28,7 +28,10 @@ add_colname_hints <- function(df, .cols, formats = NULL) {
 parse_colname_hints <- function(df) {
   nms <- colnames(df)
 
-  hints <- stringr::str_extract(nms, "\\.int$|\\.pct$|\\.str$|\\.dbl$|\\.yr$|\\.date$")
+  hints <- stringr::str_extract(
+    nms,
+    "\\.int$|\\.pct$|\\.str$|\\.dbl$|\\.yr$|\\.date$"
+  )
 
   dplyr::recode_values(
     hints,

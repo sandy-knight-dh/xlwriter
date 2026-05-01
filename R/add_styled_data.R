@@ -39,7 +39,13 @@ add_styled_data <- function(
 
   colnames(df) <- snakecase::to_sentence_case(colnames(df))
 
-  col_styles <- make_col_styles(df, row_pos, col_pos, pct_cols, use_colname_hints)
+  col_styles <- make_col_styles(
+    df,
+    row_pos,
+    col_pos,
+    pct_cols,
+    use_colname_hints
+  )
 
   wb$add_data(
     x = df,

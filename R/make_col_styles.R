@@ -3,28 +3,38 @@
 #' @param row_pos Starting row (numeric).
 #' @param col_pos Starting col (numeric).
 #' @param pct_cols Character vector of columns that should take percent format
-make_col_styles <- function(df, row_pos, col_pos, pct_cols = NULL, use_colname_hints = FALSE) {
+#' @param use_colname_hints Use column names added by \code{add_colname_hints()} to determine formatting style. \code{FALSE} by default.
+#' @export
+make_col_styles <- function(
+  df,
+  row_pos,
+  col_pos,
+  pct_cols = NULL,
+  use_colname_hints = FALSE
+) {
   if (isTRUE(use_colname_hints)) {
     hints <- parse_colname_hints(df)
     col_styles <-
       list(
-      "string"  = which(hints == "string"),
-      "double"  = which(hints == "double"),
-      "integer" = which(hints == "integer"),
-      "percent" = which(hints == "percent"),
-      "date"    = which(hints == "date")
-    )
+        "string" = which(hints == "string"),
+        "double" = which(hints == "double"),
+        "integer" = which(hints == "integer"),
+        "percent" = which(hints == "percent"),
+        "date" = which(hints == "date")
+      )
   } else {
-  coltypes <- purrr::map_chr(.x = df, .f = class)
+    coltypes <- purrr::map_chr(.x = df, .f = class)
 
-  col_styles <-
-    list(
-      "string" = which(coltypes %in% c("factor", "character")),
-      "double" = which((coltypes == "numeric") & !(colnames(df) %in% pct_cols)),
-      "integer" = which(coltypes == "integer"),
-      "percent" = which(colnames(df) %in% pct_cols),
-      "date" = which(coltypes == "Date")
-    )
+    col_styles <-
+      list(
+        "string" = which(coltypes %in% c("factor", "character")),
+        "double" = which(
+          (coltypes == "numeric") & !(colnames(df) %in% pct_cols)
+        ),
+        "integer" = which(coltypes == "integer"),
+        "percent" = which(colnames(df) %in% pct_cols),
+        "date" = which(coltypes == "Date")
+      )
   }
 
   col_styles <-

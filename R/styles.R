@@ -1,4 +1,30 @@
 #' @title Column header cell formatting
+#' @param wb A workbook object.
+#' @return Character vector (1L), XML Excel formatting string
+#' @export
+data_title_style <- function(wb) {
+  
+  data_title_font <- openxlsx2::create_font(b = TRUE)
+
+  data_title_border <- openxlsx2::create_border(bottom = "thick")
+
+  wb$styles_mgr$add(data_title_font, "data_title_font")
+
+  wb$styles_mgr$add(data_title_border, "data_title_border")
+  
+  openxlsx2::create_cell_style(
+    font_id = wb$styles_mgr$get_font_id("data_title_font"),
+    border_id = wb$styles_mgr$get_border_id("data_title_border"),
+    horizontal = "left",
+    indent = 1,
+    num_fmt_id = 3,
+    vertical = "center"
+  )
+}
+
+
+#' @title Column header cell formatting
+#' @param wb A workbook object.
 #' @return Character vector (1L), XML Excel formatting string
 #' @export
 header_style <- function(wb) {
@@ -69,7 +95,7 @@ percent_values_style <-  function() {
 }
 
 #' @title Date cell formatting. Uses "mmm-yy" by default.
-#' @return Character vector (1L), xml Excel formatting string
+#' @return Character vector (1L), XML Excel formatting string
 #' @export
 date_values_style <- function() {
   openxlsx2::create_cell_style(

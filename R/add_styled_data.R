@@ -1,3 +1,16 @@
+#' @title Apply a style to a \code{wb_dims} range.
+#' @param wb A workbook object.
+#' @param dims An Excel range.
+#' @param style_name The name of a registered style.
+#' @export
+  apply_style <- function(wb, dims, style_name) {
+    if (is.null(dims)) return(invisible(NULL))
+    wb$set_cell_style(
+      dims = dims,
+      style = wb$styles_mgr$get_xf_id(style_name)
+    )
+  }
+  
 #' @title Add a data frame with cell styling
 #' @param wb A workbook object.
 #' @param df A data frame.
@@ -27,24 +40,17 @@ add_styled_data <- function(wb, df, row_pos, col_pos, pct_cols = NULL, year_cols
     na.strings = ""
   )
 
-  apply_style <- function(dims, style_name) {
-    if (is.null(dims)) return(invisible(NULL))
-    wb$set_cell_style(
-      dims = dims,
-      style = wb$styles_mgr$get_xf_id(style_name)
-    )
-  }
 
-  apply_style(col_styles$header,  "header_style")
-  apply_style(col_styles$string,  "text_values_style")
-  apply_style(col_styles$integer, "integer_values_style")
-  apply_style(col_styles$double,  "small_values_style")
-  apply_style(col_styles$percent, "percent_values_style")
-  apply_style(col_styles$date,    "date_values_style")
+  apply_style(wb, col_styles$header,  "header_style")
+  apply_style(wb, col_styles$string,  "text_values_style")
+  apply_style(wb, col_styles$integer, "integer_values_style")
+  apply_style(wb, col_styles$double,  "small_values_style")
+  apply_style(wb, col_styles$percent, "percent_values_style")
+  apply_style(wb, col_styles$date,    "date_values_style")
 
   wb <- wb$set_col_widths(
-    sheet = current_sheet(),
-    cols = wb_dims(row_pos:nrow(df), col_pos:ncol(df)),
+    sheet = openxlsx2::current_sheet(),
+    cols = openxlsx2::wb_dims(row_pos:nrow(df), col_pos:ncol(df)),
     widths = "auto"
     )
   

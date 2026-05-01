@@ -8,10 +8,10 @@
 #' @export
 add_styled_data <- function(wb, df, row_pos, col_pos, pct_cols = NULL, year_cols = NULL) {
   
-  if(year_cols %in% colnames(df)) {
+  if (!is.null(year_cols) && any(year_cols %in% colnames(df))) {
     df <-
-      df |> 
-      dplyr::mutate(across(tidyselect::all_of(year_cols), as.factor))
+      df |>
+      dplyr::mutate(dplyr::across(tidyselect::all_of(year_cols), as.factor))
   }
   
   colnames(df) <- snakecase::to_sentence_case(colnames(df))

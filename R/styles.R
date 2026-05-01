@@ -3,7 +3,6 @@
 #' @return Character vector (1L), XML Excel formatting string
 #' @export
 data_title_style <- function(wb) {
-  
   data_title_font <- openxlsx2::create_font(b = TRUE)
 
   data_title_border <- openxlsx2::create_border(bottom = "thick")
@@ -11,7 +10,7 @@ data_title_style <- function(wb) {
   wb$styles_mgr$add(data_title_font, "data_title_font")
 
   wb$styles_mgr$add(data_title_border, "data_title_border")
-  
+
   openxlsx2::create_cell_style(
     font_id = wb$styles_mgr$get_font_id("data_title_font"),
     border_id = wb$styles_mgr$get_border_id("data_title_border"),
@@ -28,7 +27,6 @@ data_title_style <- function(wb) {
 #' @return Character vector (1L), XML Excel formatting string
 #' @export
 header_style <- function(wb) {
-  
   header_font <- openxlsx2::create_font(b = TRUE)
 
   header_border <- openxlsx2::create_border(bottom = "medium")
@@ -36,7 +34,7 @@ header_style <- function(wb) {
   wb$styles_mgr$add(header_font, "header_font")
 
   wb$styles_mgr$add(header_border, "header_border")
-  
+
   openxlsx2::create_cell_style(
     font_id = wb$styles_mgr$get_font_id("header_font"),
     border_id = wb$styles_mgr$get_border_id("header_border"),
@@ -73,7 +71,7 @@ text_values_style <- function() {
 #' @title Two decimal place cell formatting
 #' @return Character vector (1L), XML Excel formatting string
 #' @export
-small_values_style <- function()  {
+small_values_style <- function() {
   openxlsx2::create_cell_style(
     horizontal = "left",
     indent = 1,
@@ -85,7 +83,7 @@ small_values_style <- function()  {
 #' @title Percent cell formatting
 #' @return Character vector (1L), XML Excel formatting string
 #' @export
-percent_values_style <-  function() {
+percent_values_style <- function() {
   openxlsx2::create_cell_style(
     horizontal = "left",
     indent = 1,

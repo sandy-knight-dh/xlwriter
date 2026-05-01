@@ -2,15 +2,14 @@
 #' @param first_sheet_name Name of the initial sheet to be created.
 #' @export
 make_template_workbook <- function(first_sheet_name = NULL) {
-  
   if (is.null(first_sheet_name)) {
     first_sheet_name <- "Sheet1"
   }
 
   wb <- openxlsx2::wb_workbook()$add_worksheet(first_sheet_name)
-  
+
   wb$styles_mgr$add(data_title_style(wb), "data_title_style")
-  
+
   wb$styles_mgr$add(header_style(wb), "header_style")
 
   wb$styles_mgr$add(integer_values_style(), "integer_values_style")

@@ -4,7 +4,13 @@
 \alias{add_data_list}
 \title{Add a list of data frames to a workbook sheet}
 \usage{
-add_data_list(wb, data_list, start_row = 2, start_col = 2)
+add_data_list(
+  wb,
+  data_list,
+  start_row = 2,
+  start_col = 2,
+  use_colname_hints = FALSE
+)
 }
 \arguments{
 \item{wb}{A workbook object}
@@ -14,6 +20,9 @@ add_data_list(wb, data_list, start_row = 2, start_col = 2)
 \item{start_row}{Starting row position (numeric)}
 
 \item{start_col}{Starting col position (numeric)}
+
+\item{use_colname_hints}{Use column name suffixes to determine formatting.
+Applied to every data frame in \code{data_list}.}
 }
 \description{
 Add a list of data frames to a workbook sheet

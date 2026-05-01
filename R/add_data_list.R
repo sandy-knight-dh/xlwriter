@@ -3,8 +3,10 @@
 #' @param data_list A list of data frames
 #' @param start_row Starting row position (numeric)
 #' @param start_col Starting col position (numeric)
+#' @param use_colname_hints Use column name suffixes to determine formatting.
+#'   Applied to every data frame in `data_list`.
 #' @export
-add_data_list <- function(wb, data_list, start_row = 2, start_col = 2) {
+add_data_list <- function(wb, data_list, start_row = 2, start_col = 2, use_colname_hints = FALSE) {
   nrows <- purrr::map_int(.x = data_list, nrow)
 
   gap <- 4
@@ -15,11 +17,12 @@ add_data_list <- function(wb, data_list, start_row = 2, start_col = 2) {
 
   for (i in seq_along(data_list)) {
     data_title <- names(data_list[i])
+    title_row <- row_positions[i] - 2
 
     data_title_dims <-
       openxlsx2::wb_dims(
         from_col = start_col,
-        from_row = row_positions[i],
+        from_row = title_row,
         rows = 1,
         cols = seq(ncol(data_list[[i]]))
       )
@@ -28,7 +31,7 @@ add_data_list <- function(wb, data_list, start_row = 2, start_col = 2) {
       sheet = openxlsx2::current_sheet(),
       x = data_title,
       start_col = start_col,
-      start_row = row_positions[i] - 2
+      start_row = title_row
     )
 
     xlwriter::apply_style(wb, dims = data_title_dims, "data_title_style")
@@ -37,7 +40,8 @@ add_data_list <- function(wb, data_list, start_row = 2, start_col = 2) {
       wb,
       data_list[[i]],
       row_pos = row_positions[i],
-      col_pos = start_col
+      col_pos = start_col,
+      use_colname_hints = use_colname_hints
     )
   }
 

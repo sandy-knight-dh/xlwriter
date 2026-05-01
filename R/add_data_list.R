@@ -2,7 +2,7 @@
 #' @param wb A workbook object
 #' @param data_list A list of data frames
 #' @param start_row Starting row position (numeric)
-#' @param start_cl Starting col position (numeric)
+#' @param start_col Starting col position (numeric)
 #' @export
 add_data_list <- function(wb, data_list, start_row = 2, start_col = 2) {
   
@@ -10,23 +10,21 @@ add_data_list <- function(wb, data_list, start_row = 2, start_col = 2) {
   
   row_positions <- nrows + start_row
   
-  row_positions <- row_positions[1:length(data_list) - 1]
-  
+  row_positions <- row_positions[seq_len(length(data_list) - 1)]
+
   row_positions <- c(start_row, row_positions) + 4
-  
+
   row_positions <- cumsum(row_positions)
 
-  wb <- xlwriter::make_template_workbook()
-  
   for (i in seq_along(data_list)) {
     data_title <- names(data_list[i])
-    
+
     data_title_dims <-
       openxlsx2::wb_dims(
       from_col = start_col,
-      from_row = row_positions[1],
+      from_row = row_positions[i],
       rows = 1,
-      cols = seq(ncol(data_list[[1]]))
+      cols = seq(ncol(data_list[[i]]))
       )
     
     wb$add_data(

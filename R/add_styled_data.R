@@ -31,13 +31,18 @@ add_styled_data <- function(
   year_cols = NULL,
   use_colname_hints = FALSE
 ) {
+  if (isTRUE(use_colname_hints)) {
+    yr_cols <- which(parse_colname_hints(df) == "year")
+    if (length(yr_cols) > 0) {
+      df <- dplyr::mutate(df, dplyr::across(tidyselect::all_of(yr_cols), as.factor))
+    }
+  }
+
   if (!is.null(year_cols) && any(year_cols %in% colnames(df))) {
     df <-
       df |>
       dplyr::mutate(dplyr::across(tidyselect::all_of(year_cols), as.factor))
   }
-
-  colnames(df) <- snakecase::to_sentence_case(colnames(df))
 
   col_styles <- make_col_styles(
     df,
@@ -46,6 +51,12 @@ add_styled_data <- function(
     pct_cols,
     use_colname_hints
   )
+
+  colnames(df) <- stringr::str_remove(
+    colnames(df),
+    "\\.(int|pct|str|dbl|yr|date)$"
+  )
+  colnames(df) <- snakecase::to_sentence_case(colnames(df))
 
   wb$add_data(
     x = df,

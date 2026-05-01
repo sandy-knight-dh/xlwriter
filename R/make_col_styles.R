@@ -16,14 +16,14 @@ make_col_styles <- function(
     hints <- parse_colname_hints(df)
     col_styles <-
       list(
-        "string" = which(hints == "string"),
+        "string" = which(hints %in% c("string", "year")),
         "double" = which(hints == "double"),
         "integer" = which(hints == "integer"),
         "percent" = which(hints == "percent"),
         "date" = which(hints == "date")
       )
   } else {
-    coltypes <- purrr::map_chr(.x = df, .f = class)
+    coltypes <- purrr::map_chr(.x = df, .f = \(x) class(x)[1])
 
     col_styles <-
       list(

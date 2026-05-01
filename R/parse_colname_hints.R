@@ -13,6 +13,7 @@
 #' | Double  | dbl       |
 #' | Year    | yr        |
 #' | Date    | date      |
+#' @export
 add_colname_hints <- function(df, .cols, formats = NULL) {
   .cols <- unique(.cols)
   stopifnot(length(.cols) == length(formats))
@@ -25,6 +26,9 @@ add_colname_hints <- function(df, .cols, formats = NULL) {
   df
 }
 
+#' @title Parse column name formatting type hints
+#' @param df A data frame
+#' @export
 parse_colname_hints <- function(df) {
   nms <- colnames(df)
 

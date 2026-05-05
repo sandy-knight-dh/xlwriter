@@ -1,15 +1,36 @@
+#' @export
+create_name_for_range <- function(x) {
+
+  split_name <- stringr::str_split(x, "\\s+", simplify = TRUE)
+
+  n <- length(split_name)
+  idx <- unique(c(1, min(2, n), n))
+  parts <- split_name[idx]
+  parts <- parts[nzchar(parts)]
+
+  tolower(paste(parts, collapse = "_"))
+}
+
 #' @title Add a list of data frames to a workbook sheet
 #' @param wb A workbook object
 #' @param data_list A list of data frames
 #' @param start_row Starting row position (numeric)
 #' @param start_col Starting col position (numeric)
 #' @param use_colname_hints Use column name suffixes to determine formatting.
+#' @param name_title_range give the title ranges an Excel name
 #'   Applied to every data frame in `data_list`.
 #' @export
-add_data_list <- function(wb, data_list, start_row = 2, start_col = 2, use_colname_hints = FALSE) {
-  nrows <- purrr::map_int(.x = data_list, nrow)
+add_data_list <- function(
+  wb,
+  data_list,
+  start_row = 2,
+  start_col = 2,
+  use_colname_hints = FALSE,
+  name_title_range = FALSE,
+  gap = 4
+) {
 
-  gap <- 4
+  nrows <- purrr::map_int(.x = data_list, nrow)
 
   steps <- c(start_row + gap, utils::head(nrows, -1) + gap)
 
@@ -34,6 +55,14 @@ add_data_list <- function(wb, data_list, start_row = 2, start_col = 2, use_colna
       start_row = title_row
     )
 
+    if (isTRUE(name_title_range)) {
+
+    wb$add_named_region(
+      dims = data_title_dims,
+      name = create_name_for_range(data_title)
+    )
+    }
+
     xlwriter::apply_style(wb, dims = data_title_dims, "data_title_style")
 
     wb <- xlwriter::add_styled_data(
@@ -47,3 +76,5 @@ add_data_list <- function(wb, data_list, start_row = 2, start_col = 2, use_colna
 
   wb
 }
+
+

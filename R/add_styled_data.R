@@ -34,7 +34,10 @@ add_styled_data <- function(
   if (isTRUE(use_colname_hints)) {
     yr_cols <- which(parse_colname_hints(df) == "year")
     if (length(yr_cols) > 0) {
-      df <- dplyr::mutate(df, dplyr::across(tidyselect::all_of(yr_cols), as.factor))
+      df <- dplyr::mutate(
+        df,
+        dplyr::across(tidyselect::all_of(yr_cols), as.factor)
+      )
     }
   }
 

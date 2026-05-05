@@ -59,7 +59,8 @@ add_styled_data <- function(
     colnames(df),
     "\\.(int|pct|str|dbl|yr|date)$"
   )
-  colnames(df) <- snakecase::to_sentence_case(colnames(df))
+
+  #colnames(df) <- snakecase::to_sentence_case(colnames(df))
 
   wb$add_data(
     x = df,

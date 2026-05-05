@@ -87,7 +87,7 @@ percent_values_style <- function() {
   openxlsx2::create_cell_style(
     horizontal = "left",
     indent = 1,
-    num_fmt_id = 9,
+    num_fmt_id = 10,
     vertical = "center"
   )
 }

@@ -21,6 +21,8 @@ apply_style <- function(wb, dims, style_name) {
 #' @param pct_cols Character vector of column names to be percent formatted.
 #' @param year_cols Character vector of column containing year values.
 #' @param use_colname_hints Use column names to determine formatting.
+#' @param data_title Optional string written one row above the column headers
+#'   using the registered \code{data_title_style}.
 #' @export
 add_styled_data <- function(
   wb,
@@ -29,7 +31,8 @@ add_styled_data <- function(
   col_pos,
   pct_cols = NULL,
   year_cols = NULL,
-  use_colname_hints = FALSE
+  use_colname_hints = FALSE,
+  data_title = NULL
 ) {
   if (isTRUE(use_colname_hints)) {
     yr_cols <- which(parse_colname_hints(df) == "year")
@@ -60,14 +63,31 @@ add_styled_data <- function(
     "\\.(int|pct|str|dbl|yr|date)$"
   )
 
-#  colnames(df) <- snakecase::to_sentence_case(colnames(df))
-
   wb$add_data(
     x = df,
     start_col = col_pos,
     start_row = row_pos,
     na.strings = ""
   )
+
+  if (!is.null(data_title)) {
+    title_row <- row_pos - 1
+    title_dims <- openxlsx2::wb_dims(
+      from_col = col_pos,
+      from_row = title_row,
+      rows = 1,
+      cols = seq(ncol(df))
+    )
+
+    wb$add_data(
+      sheet = openxlsx2::current_sheet(),
+      x = data_title,
+      start_col = col_pos,
+      start_row = title_row
+    )
+
+    apply_style(wb, title_dims, "data_title_style")
+  }
 
   apply_style(wb, col_styles$header, "header_style")
   apply_style(wb, col_styles$string, "text_values_style")

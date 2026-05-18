@@ -9,7 +9,10 @@ add_data_list(
   data_list,
   start_row = 2,
   start_col = 2,
-  use_colname_hints = FALSE
+  use_colname_hints = FALSE,
+  name_title_range = FALSE,
+  gap = 4,
+  note = NULL
 )
 }
 \arguments{
@@ -21,8 +24,14 @@ add_data_list(
 
 \item{start_col}{Starting col position (numeric)}
 
-\item{use_colname_hints}{Use column name suffixes to determine formatting.
+\item{use_colname_hints}{Use column name suffixes to determine formatting.}
+
+\item{name_title_range}{give the title ranges an Excel name
 Applied to every data frame in \code{data_list}.}
+
+\item{note}{Optional text placed between the title and the data, with a
+blank row on either side. Either a single string applied to every frame
+or a character vector matching \code{length(data_list)}.}
 }
 \description{
 Add a list of data frames to a workbook sheet

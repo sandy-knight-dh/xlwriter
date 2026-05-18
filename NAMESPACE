@@ -2,8 +2,10 @@
 
 export(add_colname_hints)
 export(add_data_list)
+export(add_data_list_horizontal)
 export(add_styled_data)
 export(apply_style)
+export(create_name_for_range)
 export(data_title_style)
 export(date_values_style)
 export(header_style)

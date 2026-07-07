@@ -1,0 +1,61 @@
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# xlwriter
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This is a wrapper for some `openxlsx2` to help me produce consistently
+formatted Excel files for work done in R.
+
+## Installation
+
+``` r
+pak::pak("git::https://codeberg.org/sjwk/xlwriter")
+```
+
+## Example
+
+``` r
+library(openxlsx2)
+library(xlwriter)
+
+wb <- xlwriter::make_template_workbook("List of data frames")
+
+# Add a list of data frames to a work sheet (organised vertically) --------
+
+wb <-
+  xlwriter::add_data_list(
+  wb,
+  list("Cars" = mtcars, "Flowers" = iris)
+)
+
+# Specify some number formatting by column --------------------------------
+
+df <-
+  palmerpenguins::penguins |> 
+  dplyr::summarise(
+    n = dplyr::n(),
+    .by = c(species, year)
+  ) |> 
+  dplyr::group_by(year) |>
+  dplyr::mutate(percent = n / sum(n)) |> 
+  dplyr::ungroup() |> 
+  # Adds a suffix to colnames that the data writing functions
+  # use to determine which Excel formatting to apply
+  xlwriter::add_colname_hints(
+    .cols = c("species", "year", "n", "percent"),
+    formats = c("str", "yr", "int", "pct")
+    )
+
+wb$add_worksheet("Penguins")
+
+wb <-
+  xlwriter::add_data_list(
+  wb,
+  list("Penguins" = df),
+  use_colname_hints = TRUE
+)
+
+wb$save("examples.xlsx")
+```

@@ -3,3 +3,4 @@
 ^\.vscode$
 ^temp\.R$
 ^testfile\.xlsx$
+^README\.Rmd$
